@@ -16,14 +16,14 @@ export class MovieService {
 	}
 
 
-	getOneMovie(id: string): Movie {
-		return this.data.find((movie) => movie.id === parseInt(id,10));
+	getOneMovie(id: number): Movie | undefined {
+		return this.data.find((movie) => movie.id === id);
 	};
 
 
 	
-	removeMovie(id: string): void {
-		this.data = this.data.filter((movie) => movie.id !== parseInt(id,10));
+	removeMovie(id: number): void {
+		this.data = this.data.filter((movie) => movie.id !== id);
 	}
 
 	
@@ -34,9 +34,9 @@ export class MovieService {
 		return newMovie;
 	}
 
-	updateMovie(id: string, movie: Movie): Movie{
+	updateMovie(id: number, movie: Movie): Movie{
 		console.log('Updating',movie);
-		const index = this.data.findIndex((movie) => movie.id === parseInt(id,10));
+		const index = this.data.findIndex((movie) => movie.id === id);
 		this.data[index] = movie;
 		return movie;
 	}
