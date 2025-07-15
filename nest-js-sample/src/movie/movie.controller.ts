@@ -8,8 +8,9 @@ import {
 	Post,
 	Put,
 	 } from '@nestjs/common';
-import { InputMovie, Movie } from './movie.interface';
-import { MovieService } from './movie.service';	 
+import { InputMovie } from './movie.interface';
+import { MovieService } from './movie.service';
+import { Movie } from './movie.entity';	 
 
 @Controller('movie')
 export class MovieController {
@@ -19,14 +20,13 @@ export class MovieController {
 
 
 	@Get()
-	getAllMovies(): Movie[]{
+	getAllMovies(): Promise<Movie[]> {
 		return this.movieService.getAllMovies();
-		//return this.data;
 	}
 
 
 	@Get(':id')
-	getOneMovie(@Param('id') id: string): Movie | undefined {
+	getOneMovie(@Param('id') id: string): Promise<Movie | null> {
 		return this.movieService.getOneMovie(parseInt(id,10));
 	};
 
@@ -34,18 +34,17 @@ export class MovieController {
 	@Delete(':id')
 	@HttpCode(204)
 	removeMovie(@Param('id') id: string): void {
-		return this.movieService.removeMovie(parseInt(id,10));
-		//this.data = this.data.filter((movie) => movie.id !== parseInt(id,10));
+		this.movieService.removeMovie(parseInt(id,10));
 	}
 
 	@Post()
-	createNewMovie(@Body() movie: InputMovie): Movie {
+	createNewMovie(@Body() movie: InputMovie): Promise<Movie> {
 		return this.movieService.createNewMovie(movie);
 	}
 
 
 	@Put(':id')
-	updateMovie(@Param('id') id: string, @Body() movie: Movie): Movie {
+	updateMovie(@Param('id') id: string, @Body() movie: Movie): Promise<Movie> {
 		console.log('Updating',movie);
 		return this.movieService.updateMovie(parseInt(id,10),movie);
 	}
