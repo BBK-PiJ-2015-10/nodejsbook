@@ -32,7 +32,8 @@ export class MovieService {
 	}
 
 	updateMovie(id: number, movie: Movie): Promise<Movie>{
-		return this.movieRepository.save(movie);
+		this.movieRepository.update(id, movie).then(() => {movie});
+		return Promise.resolve(movie);
 	}
 
 
