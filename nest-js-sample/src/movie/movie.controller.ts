@@ -28,7 +28,6 @@ export class MovieController {
 	@Get(':id')
 	getOneMovie(@Param('id') id: string): Movie | undefined {
 		return this.movieService.getOneMovie(parseInt(id,10));
-		//return this.data.find((movie) => movie.id === parseInt(id,10));
 	};
 
 
@@ -41,10 +40,6 @@ export class MovieController {
 
 	@Post()
 	createNewMovie(@Body() movie: InputMovie): Movie {
-		//const nextId = Math.max(...this.data.map((movie) => movie.id)) +1;
-		//movie.id = nextId;
-		//this.data.push(movie);
-		//return movie;
 		return this.movieService.createNewMovie(movie);
 	}
 
@@ -52,8 +47,6 @@ export class MovieController {
 	@Put(':id')
 	updateMovie(@Param('id') id: string, @Body() movie: Movie): Movie {
 		console.log('Updating',movie);
-		//const index = this.data.findIndex((movie) => movie.id === parseInt(id,10));
-		//this.data[index] = movie;
 		return this.movieService.updateMovie(parseInt(id,10),movie);
 	}
 
