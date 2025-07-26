@@ -15,6 +15,9 @@ export class AuthService {
     username: string,
     password: string,
   ): Promise<Omit<User, 'password'> | null> {
+    console.log(
+      `Auth Service got validateUser request for username: ${username}, password: ${password}`,
+    );
     const user = await this.userRepository.findOne({
       where: { username, password },
     });
