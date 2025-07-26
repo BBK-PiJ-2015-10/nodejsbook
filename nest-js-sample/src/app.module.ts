@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MovieModule } from './movie/movie.module';
 import { Movie } from './movie/movie.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { Movie } from './movie/movie.entity';
       entities: [Movie],
       synchronize: false,
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
