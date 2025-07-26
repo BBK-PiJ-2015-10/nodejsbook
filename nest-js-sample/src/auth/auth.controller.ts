@@ -8,15 +8,12 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() user: User) {
-    const validUser = await this.authService.validateUser(
-      user.username,
-      user.password,
-    );
+    const validUser: Omit<User, 'password'> | null =
+      await this.authService.validateUser(user.username, user.password);
     if (validUser) {
-      //return this.authService.login(validUser);
+      return this.authService.login(user);
     } else {
-      //throw new UnauthorizedException();
+      throw new UnauthorizedException();
     }
-    throw new UnauthorizedException();
   }
 }
