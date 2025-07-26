@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MovieModule } from './movie/movie.module';
 import { Movie } from './movie/movie.entity';
+import { User } from './auth/user.entity';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -16,7 +17,7 @@ import { AuthModule } from './auth/auth.module';
       username: 'root',
       password: 'password',
       database: 'moviedb',
-      entities: [Movie],
+      entities: [Movie, User],
       synchronize: false,
     }),
     AuthModule,

@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { InputMovie } from './movie.interface';
@@ -16,7 +16,7 @@ import { Movie } from './movie.entity';
 import { JwtAuthGuard } from '../auth/jwt-guard';
 
 @ApiTags('movie')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('movie')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
