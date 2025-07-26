@@ -4,20 +4,19 @@ import { User } from './user.entity';
 
 @Controller('auth')
 export class AuthController {
-	constructor(
-		private readonly authService: AuthService
-		){}
+  constructor(private readonly authService: AuthService) {}
 
-
-	@Post('login')
-	async login(@Body() user: User){
-		const validUser = await this.authService.validateUser(user.username, user.password);
-		if (validUser) {
-			//return this.authService.login(validUser);
-		} else {
-			//throw new UnauthorizedException();
-		}
-		throw new UnauthorizedException();
-	}
-
+  @Post('login')
+  async login(@Body() user: User) {
+    const validUser = await this.authService.validateUser(
+      user.username,
+      user.password,
+    );
+    if (validUser) {
+      //return this.authService.login(validUser);
+    } else {
+      //throw new UnauthorizedException();
+    }
+    throw new UnauthorizedException();
+  }
 }

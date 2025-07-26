@@ -1,8 +1,7 @@
 export interface Movie {
-	id: number,
-	title: string,
-	year: number,
+  id: number;
+  title: string;
+  year: number;
 }
 
-
-export type InputMovie = Omit<Movie,'id'>
+export type InputMovie = Omit<Movie, 'id'>;
