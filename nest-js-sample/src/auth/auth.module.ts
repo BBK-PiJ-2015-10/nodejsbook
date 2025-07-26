@@ -5,6 +5,7 @@ import { PassportModule } from '@nestjs/passport';
 import { User } from './user.entity';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { Movie } from '../movie/movie.entity';
 
 @Module({
   imports: [
