@@ -8,6 +8,7 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() user: User) {
+    console.log('Received request', user);
     const validUser: Omit<User, 'password'> | null =
       await this.authService.validateUser(user.username, user.password);
     if (validUser) {
