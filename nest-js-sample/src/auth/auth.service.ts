@@ -18,9 +18,6 @@ export class AuthService {
     console.log(
       `Auth Service got validateUser request for username: ${username}, password: ${password}`,
     );
-    const cat = await this.userRepository.find();
-    const dog = cat.at(0);
-    console.log(`the cat is ${dog}`)
     const user = await this.userRepository.findOne({
       where: { username, password },
     });
