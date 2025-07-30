@@ -4,6 +4,7 @@ import { appendFile } from 'fs/promises';
 
 // simple run with node index.js
 // with node --inspect-brk index.js
+// go to chrome://inspect
 
 // npm install --save-dev cross-env
 if (process.env.MEASURE){
