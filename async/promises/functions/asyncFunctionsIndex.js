@@ -11,14 +11,14 @@ function asyncOperation(resolve, value, time) {
 }
 
 
-// you need to use async since you are using await
+// you need to use async since you are using await (NON-BLOCKING)
 async function greet() {
-    const hello = await asyncOperation(true, 'hello', 1000);
-    const world = await asyncOperation(true, 'world', 1000);
+    const hello = await asyncOperation(true, 'hello', 50);
+    const world = await asyncOperation(true, 'world', 50);
     return hello + ' ' + world;
 }
 
-
+// THIS IS NON BLOCKING
 const greetingResult = greet();
 
 console.log(greetingResult);
@@ -27,5 +27,12 @@ console.log(`What is happening`)
 greetingResult.then((value) => {
     console.log(value);
 })
-// This is non blocking
 console.log(`In this place`)
+
+// This is BLOCKING
+const cat = await asyncOperation(true, 'cat', 2000);
+const dog = await asyncOperation(true, `dog`, 2000);
+
+console.log(`This will appear first`);
+console.log(`Welcome ${cat} and ${dog}`)
+console.log(`This will appear first too`);
