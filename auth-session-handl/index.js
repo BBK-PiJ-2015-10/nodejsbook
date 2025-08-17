@@ -37,3 +37,15 @@ INSERT INTO movies ('title','year') VALUES ('IRON MAN',2013);
 INSERT INTO movies ('title','year') VALUES ('MIMA',2014);
 INSERT INTO movies ('title','year') VALUES ('BALTI',2015);
  */
+
+/*
+CREATE TABLE users(
+id INTEGER PRIMARY KEY,
+firstname TEXT,
+lastname TEXT,
+username TEXT,
+password TEXT
+);
+INSERT INTO users (firstname,lastname,username,password) VALUES
+('Sebastian','Springer','sspringer','098f6bcd4621d373cade4e832627b4f6');
+ */

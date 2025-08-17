@@ -1,6 +1,6 @@
 import sqlite from "sqlite3";
 
-const db = new sqlite.Database('./movie/db');
+const db = new sqlite.Database('./movie.db');
 
 export function get(query = {}) {
     return new Promise((resolve, reject) => {
@@ -14,6 +14,8 @@ export function get(query = {}) {
         const queryString = `SELECT *
                              FROM users
                              WHERE ${queryElements.join(' AND ')}`;
+        console.log(`This is the query ${queryString}`)
+        console.log(`These are the values ${Object.values(query)}`)
 
         db.get(queryString, Object.values(query), (error, results) => {
             if (error) {

@@ -1,29 +1,28 @@
 import passport from 'passport';
 import expressSession from 'express-session';
 import LocalStrategy from 'passport-local';
+import {createHash} from 'crypto';
+import {get} from './user/model.js'
 
 export default function (app) {
-    passport.serializeUser((user, done) => done(null, user.username));
-    passport.deserializeUser((id, done) => {
-        const user = {
-            username: 'sspringer',
-            firstname: 'sebastian',
-            lastname: 'Springer'
-        };
-        done(null, user)
+    passport.serializeUser((user, done) => done(null, user.id));
+    passport.deserializeUser(async (id, done) => {
+        const user = await get({id});
+        if (!user) {
+            done("User not found")
+        } else {
+            done(null, user)
+        }
     });
     passport.use(
-        new LocalStrategy((username, password, done) => {
-                if (username === 'sspringer' && password === 'test') {
-                    done(null,
-                        {
-                            username: 'sspringer',
-                            firstname: 'sebastian',
-                            lastname: 'Springer'
-                        }
-                    );
-                } else {
+        new LocalStrategy(async (username, password, done) => {
+                const hash = createHash('md5').update(password).digest('hex');
+                console.log(`Created hash ${hash} for password ${password}`);
+                const user = await get({username, password: hash});
+                if (!user) {
                     done(null, false);
+                } else {
+                    done(null, user);
                 }
             }
         )
@@ -49,7 +48,9 @@ export default function (app) {
     );
 
     app.get('/logout', (request, response) => {
-            request.logout();
+            request.logout(() =>
+                console.log('User has been logout')
+            );
             response.redirect('/');
         }
     );
