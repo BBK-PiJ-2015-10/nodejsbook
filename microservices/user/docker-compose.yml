@@ -4,13 +4,13 @@ services:
     image: mongo:latest
     container_name: 'mongodb'
     ports:
-      - 27017:2017
+      - 27017:27017
   mongo-seed:
     image: mongo:latest
     links:
       - mongodb
     volumes:
-      - ./initUser.json:/unitUser.json
+      - ./initUser.json:/initUser.json
     command: 'mongoimport --host mongodb --db users -- collection users --type json --file /initUser.json --jsonArray'
   rabbitmq:
     image: harbor-us-west-2.c2fo.com/c2fo/backing-apps/rabbitmq-rosie:3.12.14

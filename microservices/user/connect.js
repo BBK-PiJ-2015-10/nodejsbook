@@ -18,6 +18,7 @@ export async function getChannel() {
         channel = await connection.createChannel();
         const ok = await channel.assertQueue(queue);
         if (ok) {
+            console.log(`Rabbit mq ready ${channel}`)
             return channel;
         }
     } catch (error) {
