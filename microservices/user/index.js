@@ -11,8 +11,6 @@ channel.consume(queue, (message) => {
             case 'getAll':
                 getAllAction(channel, message.id);
                 break;
-
-                //
             // {
             // 	"role": "user",
             // 	"cmd": "create",
@@ -20,8 +18,9 @@ channel.consume(queue, (message) => {
             // 	"data": "hello there"
             // }
             case 'create':
-                console.log('Will call createAction');
+                console.log('Received a create request');
                 createAction(channel, messageData.id, messageData.data);
+                console.log('Processed a create request');
                 break;
             default:
                 console.error('Unknown command');

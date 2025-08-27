@@ -31,7 +31,9 @@ export async function create(userData) {
     const userObject = typeof userData === 'string'
         ? { name: userData }
         : userData;
+    console.log("Requesting insertion");
     await usersCollection.insertOne(userObject);
+    console.log("Insertion succeeded")
     client.close();
     return userData;
 }

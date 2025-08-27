@@ -18,16 +18,16 @@ async function send(message) {
 export async function getAllAction(channel, id) {
     const data = await getAll();
     const message = createMessage(id, data);
-    console.log(`Sending message ${message}`)
+    console.log(`Sending message ${JSON.stringify(message.toString())}`)
     send(message);
-    console.log(`Sent message ${message}`)
+    console.log(`Sent message ${JSON.stringify(message.toString())}`)
 }
 
 export async function createAction(channel, id, data) {
     console.log('Calling create data')
     const newData = await create(data);
     const message = createMessage(id, newData);
-    console.log(`Sending message ${message}`)
+    console.log(`Sending message  ${JSON.stringify(message)}`)
     send(message)
-    console.log(`Sent message ${message}`)
+    console.log(`Sent message  ${JSON.stringify(message)}`)
 }
