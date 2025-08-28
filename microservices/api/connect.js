@@ -14,7 +14,11 @@ export function register(id, response) {
 
 export function answer(id, data) {
     console.log(`Received request to answer id ${id}`)
-    registry[id].send(data);
+    if (typeof registry[id] === 'function') {
+        registry[id](data);
+    } else {
+        registry[id].send(data);
+    }
     delete registry[id];
 }
 
@@ -41,7 +45,7 @@ export function registerHandler(channel) {
         console.log('Register handled got a message')
         const messageData = JSON.parse(receivedMessage.content.toString());
         if (messageData.role === 'user' && messageData.cmd === 'answer') {
-            answer(messageData.id,messageData.data)
+            answer(messageData.id, messageData.data)
             channel.ack(receivedMessage);
         } else {
             channel.nack(receivedMessage);
