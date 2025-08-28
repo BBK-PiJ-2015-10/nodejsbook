@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 app.use('/login', loginRouter);
-app.use('/user', expressjwt({secret: 'secret'}), userRouter());
+app.use('/user', expressjwt({secret: 'secret', algorithms: ['HS256']}), userRouter);
 //app.use('/user', userRouter);
 
 app.use((err, request, response, next) => {

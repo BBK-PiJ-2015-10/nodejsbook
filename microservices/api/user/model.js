@@ -9,7 +9,7 @@ export async function getAll() {
         cmd: 'getAll'
     };
     console.log('Sending getAll message to queue')
-    channel.sendToQueue(queue, Buffer.fromJson(JSON.stringify(message)));
+    channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)));
     console.log('Sent getAll message to queue')
     return message;
 }

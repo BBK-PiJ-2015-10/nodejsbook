@@ -31,3 +31,5 @@ router.post('/', async (request, response) => {
         }
     }
 );
+
+export {router};
