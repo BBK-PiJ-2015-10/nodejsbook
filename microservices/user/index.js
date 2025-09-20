@@ -10,7 +10,8 @@ channel.consume(queue, (message) => {
         switch (messageData.cmd) {
             case 'getAll':
                 console.log(`Received a getAll message ${message.content.toString()}`)
-                getAllAction(channel, message.id);
+                getAllAction(channel, messageData.id);
+                channel.ack(message);
                 break;
             // {
             // 	"role": "user",
@@ -22,6 +23,7 @@ channel.consume(queue, (message) => {
                 console.log('Received a create request');
                 createAction(channel, messageData.id, messageData.data);
                 console.log('Processed a create request');
+                channel.ack(message);
                 break;
             default:
                 //console.error('Unknown command');
