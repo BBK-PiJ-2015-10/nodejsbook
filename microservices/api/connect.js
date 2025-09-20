@@ -14,12 +14,11 @@ export function register(id, response) {
 
 export function answer(id, data) {
     console.log(`Received request to answer id ${id}`)
-    //if (typeof registry[id] === 'function') {
-      //  registry[id](data);
-    //} else {
-
-    //}
-    registry[id].send(data);
+    if (typeof registry[id] === 'function') {
+        registry[id](data);
+    } else {
+        registry[id].send(data);
+    }
     delete registry[id];
 }
 
@@ -44,7 +43,7 @@ export async function getChannel() {
 export function registerHandler(channel) {
     channel.consume(queue, (receivedMessage) => {
         const messageData = JSON.parse(receivedMessage.content.toString());
-        console.log('Register handled got a message ',messageData)
+        console.log('Register handled got a message ', messageData)
         if (messageData.role === 'user' && messageData.cmd === 'answer') {
             answer(messageData.id, messageData.data)
             channel.ack(receivedMessage);
