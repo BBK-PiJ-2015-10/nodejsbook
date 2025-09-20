@@ -4,11 +4,12 @@ import {getChannel, queue} from "./connect.js";
 const channel = await getChannel();
 
 channel.consume(queue, (message) => {
-    console.log(`Received a message ${message.content.toString()}`)
+    //console.log(`Received a message ${message.content.toString()}`)
     const messageData = JSON.parse(message.content.toString());
     if (messageData.role === 'user') {
         switch (messageData.cmd) {
             case 'getAll':
+                console.log(`Received a getAll message ${message.content.toString()}`)
                 getAllAction(channel, message.id);
                 break;
             // {
@@ -23,7 +24,7 @@ channel.consume(queue, (message) => {
                 console.log('Processed a create request');
                 break;
             default:
-                console.error('Unknown command');
+                //console.error('Unknown command');
                 channel.nack(message);
                 break;
         }

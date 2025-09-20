@@ -7,7 +7,7 @@ const router = Router();
 
 router.post('/', async (request, response) => {
         try {
-            const {id} = getAll();
+            const {id} = await getAll();
             register(id, (users) => {
                 const user = users.find(
                     (u) =>
