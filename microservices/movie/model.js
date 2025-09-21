@@ -20,10 +20,16 @@ async function connect() {
 
 export async function getAll() {
     const connection = await connect();
-    console.log(`Got connection ${connection}`)
     const query = 'SELECT * FROM movie';
     const [data] = await connection.query(query);
-    console.log(`Got data ${data}`)
     connection.end();
     return data;
+}
+
+export async function create(movie) {
+    const connection = await connect();
+    const query = 'INSERT INTO movie (title,year) VALUES (?,?)';
+    const [result] = await connection.query(query, [movie.title, movie.year]);
+    connection.end();
+    return {...movie, id: result.insertId}
 }
