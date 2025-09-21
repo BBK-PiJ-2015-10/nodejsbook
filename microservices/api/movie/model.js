@@ -8,7 +8,7 @@ export async function getAll() {
 }
 
 export async function create(movie) {
-    const {data} = await axios.post(movie);
+    const {data} = await axios.post(url, movie);
     return data;
 }
 
