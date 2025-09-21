@@ -18,6 +18,14 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3306:3306
+    volumes:
+      - ./initMovie.sql:/docker-entrypoint-initdb.d/initMovie.sql
   #user:
    # build:
     #  context: ./
