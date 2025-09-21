@@ -14,9 +14,11 @@
   "description": "",
   "dependencies": {
     "amqplib": "^0.10.8",
+    "axios": "^1.12.2",
     "express": "^5.1.0",
     "express-jwt": "^8.5.1",
     "jsonwebtoken": "^9.0.2",
+    "request": "^2.88.2",
     "uuid": "^11.1.0"
   }
 }
