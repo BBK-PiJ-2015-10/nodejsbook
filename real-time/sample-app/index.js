@@ -2,6 +2,7 @@ import express from 'express';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cookieSession from 'cookie-session';
+import { router } from "./app/index.js";
 
 
 const app = express()
@@ -21,8 +22,7 @@ app.get('/',(request,response) => {
     response.render('login');
 });
 
-
-
+app.use(router);
 
 app.listen(8080,() =>
     console.log('Server is listening to http://localhost:8080')
