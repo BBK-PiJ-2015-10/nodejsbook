@@ -12,7 +12,7 @@ app.use(cookieSession({
 }),);
 app.use(express.urlencoded({ extended: false}));
 
-app.set('views',`${dirname(fileURLToPath(import.meta.url))}/views`);
+app.set('views',`${dirname(fileURLToPath(import.meta.url))}/app/views`);
 app.set('view engine','pug');
 
 
