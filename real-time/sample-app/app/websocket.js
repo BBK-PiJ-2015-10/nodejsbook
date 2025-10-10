@@ -49,20 +49,9 @@ export default function init(app) {
                     conn.send && conn.send(msgToSend);
                 } else {
                     console.log(`Connection is closed ${conn} not sending message : ${msgToSend}`);
-                    //con.send(msg);
                 }
             })
 
-
-            // connections.forEach((con) => {
-            //     if (con.readyState === 1) { // Check if connection is open
-            //         console.log(`Connection is open ${con} sending message : ${msg}`);
-            //         con.send(msg);
-            //     } else {
-            //         console.log(`Connection is closed ${con} not sending message : ${msg}`);
-            //         //con.send(msg);
-            //     }
-            // });
         });
 
     });
