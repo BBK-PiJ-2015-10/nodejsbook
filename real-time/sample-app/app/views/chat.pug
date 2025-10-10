@@ -1,39 +1,54 @@
-div#msgs(style ="height:400; width:400; overflow:scroll;")
+html
+    head
+    body
+        div#msgs(style ="height:400; width:400; overflow:scroll; float:left;")
+        div#users(style="height:400px; width:100px ; overflow:scroll;")
 
-form#chatForm
-    input#name(type="text")
-    input#msg(type="text")
-    button#sendBtn Send
+        form#chatForm
+            label(for="msg") #{user}:&nbsp;
+            input#name(type="hidden", value=user)
+            input#msg(type="text")
+            button#sendBtn Send
 
-    script.
-        const socket = new WebSocket('ws://localhost:8181/', 'chat')
+            script.
+                const socket = new WebSocket('ws://localhost:8181/', 'chat')
+                const name = document.querySelector('#name').value;
 
-        document.querySelector('#sendBtn').addEventListener('click', (clickEvent) => {
-            clickEvent.preventDefault();
-            const name = document.querySelector('#name').value;
-            const msg = document.querySelector('#msg').value;
+                socket.onopen = () => {
+                    socket.send(JSON.stringify({type: 'join', name}));
+                }
 
-            socket.send(`{"name":"${name}", "msg":"${msg}"}`);
-            // This is to allow sending another message
-            document.querySelector('#msg').value = '';
-        });
+                document.querySelector('#sendBtn').addEventListener('click', (clickEvent) => {
+                    clickEvent.preventDefault();
+                    const name = document.querySelector('#name').value;
+                    const msg = document.querySelector('#msg').value;
 
-        //socket.onmessage = async (msg) => {
-        socket.onmessage = (msg) => {
-            console.info('Received a message')
+                    socket.send(`{"type":"msg", "name":"${name}", "msg":"${msg}"}`);
+                    // This is to allow sending another message
+                    document.querySelector('#msg').value = '';
+                });
 
-            msg.data.text().then(textData => {
+                socket.onmessage = (msg) => {
+                    console.info('Received a message')
+                    const jsonData = JSON.parse(msg.data);
+                    console.info(`Converted msg to json ${jsonData}`)
 
-                console.info(`Converted msg to text ${textData}`)
-                const jsonData = JSON.parse(textData);
+                    switch (jsonData.type) {
+                        case 'msg':
+                            console.log(`WOOF1 AT msg`)
+                            const msgEl = document.createElement('div');
+                            msgEl.innerText = `${jsonData.name}:${jsonData.msg}`;
+                            document.querySelector('#msgs').appendChild(msgEl);
+                            break;
+                        case 'join':
+                            console.log(`WOOF1 AT join`)
+                            document.querySelector('#users').innerHTML = '';
+                            jsonData.names.forEach(name => {
+                                const usrEl = document.createElement('div');
+                                usrEl.innerText = name;
+                                document.querySelector('#users').appendChild(usrEl);
+                            });
+                            break;
+                    }
 
-                console.info(`Converted msg to json ${jsonData}`)
-
-                const msgEl = document.createElement('div');
-                msgEl.innerText = `${jsonData.name}:${jsonData.msg}`;
-
-                document.querySelector('#msgs').appendChild(msgEl);
-
-            })
-
-        }
+                }
