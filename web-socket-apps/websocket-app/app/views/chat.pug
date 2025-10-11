@@ -1,0 +1,54 @@
+html
+    head
+    body
+        div(style="width:500px; text=align:right;")
+            a(href="/logout") Logout
+        div#msgs(style ="height:400; width:400; overflow:scroll; float:left;")
+        div#users(style="height:400px; width:100px ; overflow:scroll;")
+
+        form#chatForm
+            label(for="msg") #{user}:&nbsp;
+            input#name(type="hidden", value=user)
+            input#msg(type="text")
+            button#sendBtn Send
+
+            script.
+                const socket = new WebSocket('ws://localhost:8181/', 'chat')
+                const name = document.querySelector('#name').value;
+
+                socket.onopen = () => {
+                    socket.send(JSON.stringify({type: 'join', name}));
+                }
+
+                document.querySelector('#sendBtn').addEventListener('click', (clickEvent) => {
+                    clickEvent.preventDefault();
+                    const name = document.querySelector('#name').value;
+                    const msg = document.querySelector('#msg').value;
+
+                    socket.send(`{"type":"msg", "name":"${name}", "msg":"${msg}"}`);
+                    // This is to allow sending another message
+                    document.querySelector('#msg').value = '';
+                });
+
+                socket.onmessage = (msg) => {
+                    console.info('Received a message')
+                    const jsonData = JSON.parse(msg.data);
+                    console.info(`Converted msg to json ${jsonData}`)
+
+                    switch (jsonData.type) {
+                        case 'msg':
+                            const msgEl = document.createElement('div');
+                            msgEl.innerText = `${jsonData.name}:${jsonData.msg}`;
+                            document.querySelector('#msgs').appendChild(msgEl);
+                            break;
+                        case 'join':
+                            document.querySelector('#users').innerHTML = '';
+                            jsonData.names.forEach(name => {
+                                const usrEl = document.createElement('div');
+                                usrEl.innerText = name;
+                                document.querySelector('#users').appendChild(usrEl);
+                            });
+                            break;
+                    }
+
+                }
