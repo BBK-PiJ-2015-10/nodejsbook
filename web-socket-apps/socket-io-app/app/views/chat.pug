@@ -1,5 +1,6 @@
 html
     head
+        script(src="/socket.io/socket.io.js")
     body
         div(style="width:500px; text=align:right;")
             a(href="/logout") Logout
@@ -13,42 +14,35 @@ html
             button#sendBtn Send
 
             script.
-                const socket = new WebSocket('ws://localhost:8181/', 'chat')
+                const socket = io.connect('http://localhost:8080');
                 const name = document.querySelector('#name').value;
 
-                socket.onopen = () => {
-                    socket.send(JSON.stringify({type: 'join', name}));
-                }
+                socket.on('connect', () => {
+                    socket.emit('join', {name})
+                });
 
                 document.querySelector('#sendBtn').addEventListener('click', (clickEvent) => {
                     clickEvent.preventDefault();
                     const name = document.querySelector('#name').value;
                     const msg = document.querySelector('#msg').value;
 
-                    socket.send(`{"type":"msg", "name":"${name}", "msg":"${msg}"}`);
+                    //socket.send(`{"type":"msg", "name":"${name}", "msg":"${msg}"}`);
+                    socket.emit('msg', {msg});
                     // This is to allow sending another message
                     document.querySelector('#msg').value = '';
                 });
 
-                socket.onmessage = (msg) => {
-                    console.info('Received a message')
-                    const jsonData = JSON.parse(msg.data);
-                    console.info(`Converted msg to json ${jsonData}`)
+                socket.on('msg', (data) => {
+                    const msgEl = document.createElement('div');
+                    msgEl.innerText = `${data.name}:${data.msg}`;
+                    document.querySelector('#msgs').appendChild(msgEl);
+                });
 
-                    switch (jsonData.type) {
-                        case 'msg':
-                            const msgEl = document.createElement('div');
-                            msgEl.innerText = `${jsonData.name}:${jsonData.msg}`;
-                            document.querySelector('#msgs').appendChild(msgEl);
-                            break;
-                        case 'join':
-                            document.querySelector('#users').innerHTML = '';
-                            jsonData.names.forEach(name => {
-                                const usrEl = document.createElement('div');
-                                usrEl.innerText = name;
-                                document.querySelector('#users').appendChild(usrEl);
-                            });
-                            break;
-                    }
-
-                }
+                socket.on('join', (data) => {
+                    document.querySelector('#users').innerHTML = '';
+                    data.names.forEach(name => {
+                        const usrEl = document.createElement('div');
+                        usrEl.innerText = name;
+                        document.querySelector('#users').appendChild(usrEl)
+                    });
+                });

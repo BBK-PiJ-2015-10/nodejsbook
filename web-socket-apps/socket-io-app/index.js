@@ -4,10 +4,20 @@ import {fileURLToPath} from 'url';
 import cookieSession from 'cookie-session';
 import router from './app/index.js';
 import initWebSocket from './app/websocket.js'
-
-const socket = initWebSocket();
+import {Server} from 'socket.io';
+import {createServer} from 'http';
 
 const app = express()
+
+const server = createServer(app)
+
+server.listen(8080, () => {
+    console.log('Server is listening on http://localhost:8080')
+})
+
+const io = new Server().listen(server);
+
+const socket = initWebSocket(io);
 
 app.use(cookieSession({
     name: 'session',
@@ -18,16 +28,12 @@ app.use(express.urlencoded({extended: false}));
 app.set('views', `${dirname(fileURLToPath(import.meta.url))}/app/views`);
 app.set('view engine', 'pug');
 
-
 app.get('/', (request, response) => {
-    //console.log(`Received a ${request}`);
     response.render('login');
 });
 
 app.use(router(socket));
 
-app.listen(8080, () =>
-    console.log('Server is listening to http://localhost:8080')
-)
-
-//initWebSocket();
+// app.listen(8080, () =>
+//     console.log('Server is listening to http://localhost:8080')
+// )

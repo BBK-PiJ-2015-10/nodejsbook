@@ -14,10 +14,10 @@ export default function init(logoutWebsocket) {
         const pw = request.body.password;
 
         // you are able to do request.session thanks to "cookie-session": "^2.1.1",
-        if (user === 'u1' && pw === 'test') {
-            request.session.user = 'u1';
-        } else if (user === 'u2' && pw === 'test') {
-            request.session.user = 'u2';
+        if (user === 'heidi' && pw === 'test') {
+            request.session.user = 'heidi';
+        } else if (user === 'ale' && pw === 'test') {
+            request.session.user = 'ale';
         }
 
         response.redirect('/chat');
