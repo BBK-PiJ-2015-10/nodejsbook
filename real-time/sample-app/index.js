@@ -2,9 +2,10 @@ import express from 'express';
 import {dirname} from 'path';
 import {fileURLToPath} from 'url';
 import cookieSession from 'cookie-session';
-import {router} from './app/index.js';
+import router from './app/index.js';
 import initWebSocket from './app/websocket.js'
 
+const socket = initWebSocket();
 
 const app = express()
 
@@ -23,10 +24,10 @@ app.get('/', (request, response) => {
     response.render('login');
 });
 
-app.use(router);
+app.use(router(socket));
 
 app.listen(8080, () =>
     console.log('Server is listening to http://localhost:8080')
 )
 
-initWebSocket();
+//initWebSocket();

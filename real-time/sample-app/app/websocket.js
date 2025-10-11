@@ -18,8 +18,6 @@ export default function init(app) {
             console.info('Received connection is not ready');
         }
 
-        //connections.push(ws);
-
         ws.on('message', (msg) => {
             console.log(`Websocket server got a message: ${msg}`);
 
@@ -55,6 +53,29 @@ export default function init(app) {
         });
 
     });
+
+    return function logout(user) {
+        console.log(`Logging out user ${user}`)
+        connections[user].close();
+        delete connections[user];
+
+        const msg = JSON.stringify({
+            type: 'join',
+            names: Object.keys(connections)
+        });
+
+        console.log(`Logging out user ${user} built message`)
+
+        Object.values(connections).forEach((conn) => {
+            if (conn.readyState === 1) { // Check if connection is open
+                console.log(`Connection is open ${conn} sending logout message : ${msg}`);
+                conn.send && conn.send(msg);
+            } else {
+                console.log(`Connection is closed ${conn} not sending logout message : ${msg}`);
+            }
+        });
+
+    };
 
 }
 

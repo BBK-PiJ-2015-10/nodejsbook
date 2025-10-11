@@ -1,6 +1,8 @@
 html
     head
     body
+        div(style="width:500px; text=align:right;")
+            a(href="/logout") Logout
         div#msgs(style ="height:400; width:400; overflow:scroll; float:left;")
         div#users(style="height:400px; width:100px ; overflow:scroll;")
 
@@ -35,13 +37,11 @@ html
 
                     switch (jsonData.type) {
                         case 'msg':
-                            console.log(`WOOF1 AT msg`)
                             const msgEl = document.createElement('div');
                             msgEl.innerText = `${jsonData.name}:${jsonData.msg}`;
                             document.querySelector('#msgs').appendChild(msgEl);
                             break;
                         case 'join':
-                            console.log(`WOOF1 AT join`)
                             document.querySelector('#users').innerHTML = '';
                             jsonData.names.forEach(name => {
                                 const usrEl = document.createElement('div');
