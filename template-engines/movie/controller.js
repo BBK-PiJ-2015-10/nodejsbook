@@ -1,25 +1,35 @@
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
-import { getAll } from './model.js';
-import { render } from './view.js';
+import {dirname} from 'path'
+import {fileURLToPath} from 'url'
+import {getAll, remove, get, save, insert} from './model.js';
 
-// const data = [
-// 	{id: 1, title: 'Iron Man', year: '2008'},
-// 	{id: 2, title: 'Meines leben', year: '2025'},
-// 	{id: 3, title: 'Je ne se pas', year: '2008'}
-// ]
-
-//let data = [...];
-
-const data = [];
-
-export async function listAction(request,response){
-	const data = await getAll();
-	response.render(`${dirname(fileURLToPath(import.meta.url))}/views/list`);
-	//const body = render(data);
-	//response.send(body);
+export async function listAction(request, response) {
+    const movies= await getAll();
+    response.render(`${dirname(fileURLToPath(import.meta.url))}/views/list`, {
+        movies,
+    });
 }
 
-//export function listAction(request,response) {
-//	response.send(data);
-//}
+export async function removeAction(request, response) {
+    const id = parseInt(request.params.id, 10);
+    await remove(id);
+    response.redirect(request.baseUrl);
+}
+
+export async function formAction(request, response) {
+    let movie = {id: '', title: '', year: ''};
+    if (request.params.id) {
+        movie = await get(parseInt(request.params.id, 10));
+    }
+
+    response.send("cat");
+}
+
+export async function saveAction(request, response) {
+    const movie = {
+        id: request.body.id,
+        title: request.body.title,
+        year: request.body.year
+    };
+    await save(movie);
+    response.redirect(request.baseUrl);
+}

@@ -16,13 +16,14 @@ app.use('/movie', movieRouter);
 
 const accessLogStream = createWriteStream('access.log', {flags: 'a'});
 
-app.use(morgan('common', {
-    immediate: true,
-    stream: accessLogStream
-}));
+// This is to write logs to file
+// app.use(morgan('common', {
+//     immediate: true,
+//     stream: accessLogStream
+// }));
 
 
-//app.use(morgan('common',{ immediate: true}));
+app.use(morgan('common',{ immediate: true}));
 
 app.get('/', (request, response) => response.redirect('/movie'));
 

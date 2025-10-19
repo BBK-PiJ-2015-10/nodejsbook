@@ -14,9 +14,13 @@ html(lang="en")
                     th
                     th
             tbody
+              - for (let movie of movies)
                 tr
-                    td 1
-                    td Iron Man2
-                    td 2008
-                    td delete
-                    td edit
+                    td #{movie.id}
+                    td #{movie.title}
+                    td #{movie.year}
+                    td
+                        a(href="/movie/delete/" + movie.id) delete
+                    td
+                        a(href="/movie/form/" + movie.id) edit
+        a(href="/movie/form") new
