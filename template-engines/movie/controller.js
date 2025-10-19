@@ -9,6 +9,9 @@ import { render } from './view.js';
 // 	{id: 3, title: 'Je ne se pas', year: '2008'}
 // ]
 
+//let data = [...];
+
+const data = [];
 
 export async function listAction(request,response){
 	const data = await getAll();
