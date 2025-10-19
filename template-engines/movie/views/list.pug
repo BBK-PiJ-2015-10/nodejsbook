@@ -1,20 +1,17 @@
-doctype html
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        title movie list
-        link(rel="stylesheet" href="/style.css")
-    body
-        table
-            thead
-                tr
-                    th Id
-                    th Title
-                    th Year
-                    th
-                    th
-            tbody
-              - for (let movie of movies)
+extends ../../movie/views/base
+
+block content
+    h1 movie database
+    table
+        thead
+            tr
+                th Id
+                th Title
+                th Year
+                th
+                th
+        tbody
+            - for (let movie of movies)
                 tr
                     td #{movie.id}
                     td #{movie.title}
@@ -23,4 +20,4 @@ html(lang="en")
                         a(href="/movie/delete/" + movie.id) delete
                     td
                         a(href="/movie/form/" + movie.id) edit
-        a(href="/movie/form") new
+    a(href="/movie/form") new
