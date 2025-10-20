@@ -4,6 +4,7 @@ import {getAll, remove, get, save, insert} from './model.js';
 
 export async function listAction(request, response) {
     const movies= await getAll();
+    console.log('Fetching all movies');
     response.render(`${dirname(fileURLToPath(import.meta.url))}/views/list`, {
         movies,
     });
