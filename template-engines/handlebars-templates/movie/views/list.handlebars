@@ -13,13 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            {{#each movies}}
-            <tr>
-                <td>{{this.id}}</td>
-                <td>{{this.title}}</td>
-                <td>{{this.year}}</td>
-            </tr>
-            {{/each}}
+            {{#each movies}} {{>listItem}} {{/each}}
         </tbody>
     </table>
 </body>
