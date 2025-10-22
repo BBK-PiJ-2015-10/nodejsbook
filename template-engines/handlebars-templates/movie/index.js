@@ -1,0 +1,24 @@
+import {Router} from 'express';
+import {listAction, removeAction, formAction, saveAction} from './controller.js';
+
+const router = Router();
+
+
+router.get('/', listAction);
+router.get('/delete/:id', removeAction);
+router.get('/form/:id', formAction);
+router.post('/save', saveAction);
+//router.get('/movie/form/:id?',listAction);
+
+// const data = [
+// 	{ id:1, title: 'Iron Man', year: '2008'},
+// 	{ id:2, title: 'Thor', year: '2011'},
+// 	{ id:3, title: 'Captain America', year: '2011'}
+// ]
+
+
+//router.get('/',(request,response) => {
+//	response.send(data);
+//});
+
+export {router};
