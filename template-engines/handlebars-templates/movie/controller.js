@@ -1,14 +1,29 @@
 import {dirname} from 'path'
 import {fileURLToPath} from 'url'
+import {readFileSync} from 'fs'
+import handlebars from "handlebars";
 import {getAll, remove, get, save, insert} from './model.js';
+
+const listItem = handlebars.compile(
+    readFileSync(
+        `${dirname(fileURLToPath(import.meta.url))}/views/list-item.handlebars`,
+        'utf-8'
+    )
+);
+
 
 export async function listAction(request, response) {
     const movies = await getAll();
     console.log('Fetching all movies');
-    response.render('list', {
-        layout: false,
-        movies: movies
-    })
+    response.render('list',{
+       layout: false,
+       movies,
+       partials: { listItem}
+    });
+    // response.render('list', {
+    //     layout: false,
+    //     movies: movies
+    // })
     //response.render(`${dirname(fileURLToPath(import.meta.url))}/views/list`, {
     //  movies,
     //});
